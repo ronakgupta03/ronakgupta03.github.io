@@ -1,0 +1,49 @@
+/* Custom Aesthetics & Engineering Terminal Styling */
+
+::selection {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom sleek scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(10, 15, 26, 0.6);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.6);
+}
+
+/* Tech tag styling polish */
+code {
+  font-family: var(--font-code, monospace);
+  font-size: 0.9em;
+}
+
+/* Subtle glow for cards on hover */
+[data-theme="dark"] .project-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme="dark"] .project-card-hover:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
+}

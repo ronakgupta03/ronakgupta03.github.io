@@ -1,0 +1,46 @@
+---
+title: "SchemaForge"
+subtitle: "Autonomous AST-Aware Zero-Downtime Database Migration Agent"
+publishedAt: "2026-08-25"
+summary: "Engineered an autonomous database migration and refactoring agent that builds deterministic AST impact graphs, verifies migrations in sandboxes, and coordinates zero-downtime rollouts."
+tag: "Python · TrueForge · PostgreSQL · AST · Alembic"
+metric: "Zero-Downtime Safe"
+images:
+  - "/images/projects/schemaforge.svg"
+team:
+  - name: "Ronak Gupta"
+    role: "Lead Systems & Agent Engineer"
+    avatar: "/images/profile.svg"
+    linkedIn: "https://www.linkedin.com/in/ronak-gupta-760563215/"
+link: "https://github.com/ronakgupta03/schemaforge"
+linkText: "GitHub"
+---
+
+## Overview
+SchemaForge is an autonomous, AST-aware database migration and refactoring agent built on the TrueForge agent harness. It treats schema changes not merely as raw SQL DDL, but as synchronized, systemic changes spanning both the database schema and application codebases.
+
+SchemaForge constructs a deterministic impact graph mapping tables to ORM models, field attributes, and application endpoints. It proves the migration safe inside an isolated sandbox before executing in production behind a strict human approval gate.
+
+## Problem Statement
+In modern microservices and monolithic web applications, altering a database table schema (such as splitting columns, deprecating tables, or renaming foreign keys) is notoriously dangerous. A mismatch between deployed application code and running database schemas causes downtime, dropped transactions, or silent data corruption. Traditional migration tools only run DDL without understanding application call-sites.
+
+## Architecture & System Design
+The system employs a coordinated multi-agent and static analysis pipeline:
+
+- **TrueForge Root Orchestrator**: Manages workflow stages and delegates tasks to parallel subagents.
+- **DB Analysis Subagent**: Inspects live PostgreSQL catalogs via MCP, extracting schema definitions, row counts, constraints, indexes, and execution plans with `EXPLAIN ANALYZE`.
+- **Code Analysis Subagent**: Performs static AST traversal over application repositories using Python's standard `ast` module and `sqlparse`, discovering ORM models, raw SQL queries, and API endpoints referencing the target entities.
+- **Deterministic Impact Graph Engine**: Merges database facts and static AST references into a unified dependency graph rendered as interactive Mermaid diagrams and structured JSON payloads.
+- **Daytona Sandbox Engine**: Spins up an isolated execution sandbox where the agent drafts Alembic migrations, runs backward-compatibility parity checks, executes test suites, and validates zero query regression.
+- **Human Approval Gate (`THE GATE`)**: Pauses autonomous execution before touching production. Displays exact DDL operations, rollback plans, and backward-compatible views for human sign-off.
+
+## Key Technical Innovations
+- **Zero-Downtime Multi-Phase Rollout**: Generates backward-compatible database views and dual-write triggers so legacy application versions continue operating uninterrupted while new services cut over.
+- **AST-Aware Refactoring**: Identifies all affected Python/FastAPI/SQLAlchemy callsites and suggests atomic code modifications matching the new schema.
+- **Single-Transaction Rollback Guarantee**: Wraps migrations in reversible transaction blocks with automatic rollbacks if post-migration health checks fail.
+
+## Technologies Used
+Python, TrueForge Agent Harness, PostgreSQL, Alembic, SQLAlchemy, AST static analysis, Daytona Sandbox, Docker, DeepSeek-v4 Flash, Mermaid.js.
+
+## Links
+- [GitHub Repository →](https://github.com/ronakgupta03/schemaforge)

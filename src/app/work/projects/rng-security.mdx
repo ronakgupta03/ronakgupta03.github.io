@@ -1,0 +1,47 @@
+---
+title: "Random Number Generators: Security Analysis"
+subtitle: "Cryptographic Randomness Research"
+publishedAt: "2026-07-01"
+summary: "Analyzed RNG implementations across multiple languages and developed BLAKE3-based generators with entropy mixing, reseeding, and bias-free sampling."
+tag: "Python · C/C++ · BLAKE3 · NIST SP 800-22"
+metric: "17/17 NIST SP 800-22 tests"
+images:
+  - "/images/projects/rng-security.svg"
+team:
+  - name: "Ronak Gupta"
+    role: "Security Researcher"
+    avatar: "/images/profile.svg"
+    linkedIn: "https://www.linkedin.com/in/ronak-gupta-760563215/"
+link: "https://github.com/ronakgupta03/RNG"
+linkText: "GitHub"
+---
+
+## Overview
+This research project analyzes the security and statistical properties of pseudorandom number generators (PRNGs) across multiple programming languages and implements novel cryptographic generators using the BLAKE3 hash function.
+
+## Why I Built It
+I was fascinated by how often cryptographic misuse leads to severe security vulnerabilities, specifically regarding weak seeding and predictability in standard library PRNGs. I wanted to build and test my own generators to understand the math and engineering behind secure randomness.
+
+## Architecture & Design
+The project consists of two main parts:
+- **Vulnerability Analysis**: Analyzing the predictability and state recovery vulnerabilities of default PRNGs in C/C++, Python, and Java.
+- **BLAKE3 Generators**: Implementation of two custom cryptographic generators (B3CTR and B3GUARD) that utilize BLAKE3 in counter mode.
+
+## Key Technical Decisions
+- **Counter-Based Generation**: B3CTR uses a counter-based approach, mapping an internal counter and a secret seed to a pseudorandom output using BLAKE3.
+- **Entropy Mixing**: B3GUARD implements continuous entropy mixing and automatic reseeding to recover from potential state compromises.
+- **Bias-Free Sampling**: Implemented rejection sampling to ensure that random integers generated within a specific range do not suffer from modulo bias.
+
+## Challenges & Implementation Details
+Testing the generators required running them through the NIST SP 800-22 statistical test suite. Preparing the binary data correctly and interpreting the P-values for 17 different statistical tests was mathematically rigorous. Achieving 17/17 passes validated the statistical quality of the BLAKE3-based designs.
+
+## What I Learned
+- Standard library random functions (like `rand()` in C or `random` in Python) should never be used for security-sensitive applications.
+- How to implement and verify cryptographic algorithms.
+- The statistical tests required to prove randomness.
+
+## Technologies
+C/C++, Python, Java, BLAKE3, NIST SP 800-22
+
+## Links
+[GitHub Repository →](https://github.com/ronakgupta03/RNG)

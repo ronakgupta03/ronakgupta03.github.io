@@ -1,0 +1,18 @@
+.progressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #10b981 0%, #38bdf8 50%, #818cf8 100%);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.7), 0 0 4px rgba(16, 185, 129, 0.8);
+  z-index: 99999;
+  pointer-events: none;
+  transition: width 0.08s ease-out;
+}
+
+:global([data-theme="light"]) {
+  .progressBar {
+    background: linear-gradient(90deg, #2563eb 0%, #06b6d4 100%);
+    box-shadow: 0 0 8px rgba(37, 99, 235, 0.5);
+  }
+}

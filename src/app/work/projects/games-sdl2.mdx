@@ -1,0 +1,46 @@
+---
+title: "Games Using SDL2"
+subtitle: "Native C Game Development"
+publishedAt: "2026-06-01"
+summary: "Developed C-based games with SDL2, implementing rendering, event handling, game loops, and manual memory management."
+tag: "C · SDL2 · Graphics · Game Development"
+images:
+  - "/images/projects/games-sdl2.svg"
+team:
+  - name: "Ronak Gupta"
+    role: "Game Developer"
+    avatar: "/images/profile.svg"
+    linkedIn: "https://www.linkedin.com/in/ronak-gupta-760563215/"
+link: "https://github.com/ronakgupta03/Games_in_SDL2"
+linkText: "GitHub"
+---
+
+## Overview
+A collection of C-based games built from scratch using the Simple DirectMedia Layer (SDL2) library, focusing on low-level graphics rendering and real-time interaction.
+
+## Why I Built It
+I wanted to build projects in C to strengthen my understanding of manual memory management and pointers. Games provided an excellent, highly interactive domain to practice structuring complex, stateful C programs.
+
+## Architecture & Design
+The projects are built around a classic game loop architecture:
+- **Event Handling**: Processing keyboard and window events every frame.
+- **State Update**: Updating the game's logic, physics, and entities.
+- **Rendering**: Clearing the screen and drawing textures/shapes to the buffer before presenting them to the window.
+
+## Key Technical Decisions
+- **Modular C Design**: Separated the game logic, rendering, and input handling into distinct C files and headers to maintain a clean codebase.
+- **Manual Memory Management**: Carefully tracked all dynamically allocated memory (textures, entities) to ensure no memory leaks occurred upon game exit.
+
+## Challenges & Implementation Details
+Implementing the 2D Platformer required writing custom collision detection and resolution logic, which involved complex AABB (Axis-Aligned Bounding Box) math. The Tic-Tac-Toe game involved managing a simpler state machine but required writing a clean UI rendering pipeline.
+
+## What I Learned
+- Managing memory in C is tedious but forces a much deeper understanding of the heap and stack.
+- Real-time applications require highly optimized code; doing too much work in the update loop causes noticeable frame drops.
+- A strong appreciation for modern game engines like Unity or Godot.
+
+## Technologies
+C, SDL2
+
+## Links
+- [GitHub Repository →](https://github.com/ronakgupta03/Games_in_SDL2)

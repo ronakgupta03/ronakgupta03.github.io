@@ -1,0 +1,362 @@
+.cardContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1.5rem 1.5rem;
+  border-radius: 12px;
+  background: #090d16;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  font-family: var(--font-code, monospace);
+  box-sizing: border-box;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 24px -2px rgba(59, 130, 246, 0.35);
+  }
+}
+
+.topHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.brandLink {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #f8fafc;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}
+
+.brandAccent {
+  color: #10b981;
+}
+
+.cardTag {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.tabContainer {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin: 0 auto 1.25rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  padding: 3px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover:not(.activeTab) {
+    color: #f8fafc;
+  }
+}
+
+.tabIcon {
+  width: 14px;
+  height: 14px;
+}
+
+.activeTab {
+  background: #10b981;
+  color: #06230f;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
+
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.avatarWrap {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #10b981;
+  padding: 2px;
+  background: #0f172a;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+  margin-bottom: 0.75rem;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 0.35rem;
+}
+
+.userName {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #f8fafc;
+  letter-spacing: -0.01em;
+}
+
+.verifiedCheck {
+  width: 16px;
+  height: 16px;
+  color: #10b981;
+}
+
+.handleBadge {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.12);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  margin-bottom: 1.15rem;
+}
+
+.statsGridTwo {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 1.1rem;
+}
+
+.statsGridThree {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 1.1rem;
+}
+
+.statBox {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+}
+
+.statLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.statYellow .statLabel {
+  color: #fbbf24;
+}
+
+.statGreen .statLabel {
+  color: #34d399;
+}
+
+.statNumber {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #f8fafc;
+  line-height: 1.1;
+}
+
+.findText {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-bottom: 0.65rem;
+}
+
+.platformIcons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.platformCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+  text-decoration: none;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: #10b981;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+}
+
+.platformImg {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  display: block;
+}
+
+.ghCircle:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: #3b82f6;
+}
+
+.chipsRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+
+.chip {
+  font-size: 0.68rem;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* Light Theme Support */
+:global([data-theme="light"]) {
+  .cardContainer {
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+      box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.12), 0 0 20px -2px rgba(37, 99, 235, 0.2);
+      border-color: rgba(37, 99, 235, 0.4);
+    }
+  }
+
+  .brandLink {
+    color: #0f172a;
+  }
+
+  .brandAccent {
+    color: #2563eb;
+  }
+
+  .tabContainer {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+  }
+
+  .tabBtn {
+    color: #64748b;
+    &:hover:not(.activeTab) {
+      color: #0f172a;
+    }
+  }
+
+  .activeTab {
+    background: #2563eb;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  }
+
+  .avatarWrap {
+    background: #f8fafc;
+    border-color: #2563eb;
+  }
+
+  .userName {
+    color: #0f172a;
+  }
+
+  .verifiedCheck {
+    color: #2563eb;
+  }
+
+  .handleBadge {
+    background: rgba(37, 99, 235, 0.08);
+    color: #1d4ed8;
+    border-color: rgba(37, 99, 235, 0.25);
+  }
+
+  .statBox {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+  }
+
+  .statNumber {
+    color: #0f172a;
+  }
+
+  .statYellow .statLabel {
+    color: #d97706;
+  }
+
+  .statGreen .statLabel {
+    color: #2563eb;
+  }
+
+  .platformCircle {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #475569;
+
+    &:hover {
+      background: rgba(37, 99, 235, 0.1);
+      border-color: #2563eb;
+      color: #1d4ed8;
+    }
+  }
+
+  .chip {
+    color: #1d4ed8;
+    background: rgba(37, 99, 235, 0.06);
+    border-color: rgba(37, 99, 235, 0.2);
+  }
+}

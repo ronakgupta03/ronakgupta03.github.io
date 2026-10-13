@@ -1,0 +1,50 @@
+---
+title: "MiniRelDB"
+subtitle: "Custom Relational Database Engine"
+publishedAt: "2026-08-01"
+summary: "Built a relational database engine from scratch in Java, implementing SQL execution, page-based storage, B+ Tree indexing, WAL-based recovery, and query optimization."
+tag: "Java · B+ Trees · WAL · SQL"
+metric: "10K+ records"
+images:
+  - "/images/projects/minireldb.svg"
+team:
+  - name: "Ronak Gupta"
+    role: "Systems Engineer"
+    avatar: "/images/profile.svg"
+    linkedIn: "https://www.linkedin.com/in/ronak-gupta-760563215/"
+link: "https://github.com/ronakgupta03/MiniRelDB"
+linkText: "GitHub"
+---
+
+## Overview
+MiniRelDB is a custom relational database engine written from scratch in Java. It supports parsing and executing SQL queries, managing page-based storage, and ensuring transactional atomicity and durability.
+
+## Why I Built It
+I wanted to understand the internal mechanisms that make databases fast and reliable. Building MiniRelDB was an exercise in peeling back the abstraction layers of systems like PostgreSQL and SQLite.
+
+## Architecture & Design
+The system is divided into several core components:
+- **Query Parser**: Translates SQL strings into an execution plan.
+- **Execution Engine**: Implements the Volcano model for processing tuples.
+- **Buffer Manager**: Manages memory by caching pages and handling evictions.
+- **Storage Engine**: Interfaces with the filesystem to read/write heap files.
+- **B+ Tree Indexing**: Provides $O(\log n)$ point and range lookups.
+
+## Key Technical Decisions
+- **Page-Based Storage**: Data is stored in fixed-size pages, allowing the buffer manager to efficiently map disk blocks to memory.
+- **Write-Ahead Logging (WAL)**: All modifications are written to a sequential log before being flushed to disk. This guarantees that committed transactions survive crashes.
+- **Hash Join**: Implemented an in-memory hash join for equijoins, which significantly outperforms nested loop joins for larger datasets (tested on 10K+ records).
+
+## Challenges & Implementation Details
+One major challenge was implementing concurrency control and crash recovery. Writing a correct WAL protocol required carefully tracking Log Sequence Numbers (LSNs) and ensuring that dirty pages were not flushed before their corresponding log records. I used a simple ARIES-like recovery model (Analysis, Redo, Undo).
+
+## What I Learned
+- Deepened my understanding of disk I/O and why random access is so much slower than sequential access.
+- Learned how complex B+ Tree node splits and merges can be in practice.
+- Gained an appreciation for the difficult concurrency problems that production databases solve.
+
+## Technologies
+Java, JUnit, SQL, B+ Trees, WAL, Bloom Filters
+
+## Links
+- [GitHub Repository →](https://github.com/ronakgupta03/MiniRelDB)

@@ -1,0 +1,50 @@
+---
+title: "TuxPages"
+subtitle: "Technical Research Journal"
+publishedAt: "2026-07-15"
+summary: "Co-developed a technical research journal with publishing, authentication, content management, PostgreSQL integration, and secure SMTP email delivery."
+tag: "PostgreSQL · SMTP/TLS · Authentication"
+metric: "50+ registered users · 20+ published blogs"
+images:
+  - "/images/projects/tuxpages.svg"
+team:
+  - name: "Ronak Gupta"
+    role: "Full Stack Developer"
+    avatar: "/images/profile.svg"
+    linkedIn: "https://www.linkedin.com/in/ronak-gupta-760563215/"
+link: "https://www.tuxpages.tech/"
+linkText: "Visit website"
+---
+
+## Overview
+TuxPages is a technical publishing platform designed to handle content management, secure authentication, and transactional emails.
+
+## Why I Built It
+I wanted to build a complete, production-ready web application without relying on BaaS (Backend-as-a-Service) providers like Firebase or Supabase. It was an exercise in managing my own database, authentication logic, and email infrastructure.
+
+## Architecture & Design
+The application follows a standard monolithic architecture with a clear separation of concerns:
+- **Authentication System**: Custom session-based authentication using HTTP-only cookies and bcrypt password hashing.
+- **Content Management**: A rich text editor for publishing and editing articles with role-based access control (RBAC).
+- **Database**: PostgreSQL handles all relational data, including users, posts, and sessions.
+- **Email Delivery**: A custom SMTP client that handles TLS handshakes and App Passwords for secure email delivery.
+
+## Key Technical Decisions
+- **PostgreSQL**: Chose Postgres for its robust relational model and ACID compliance, which was crucial for managing concurrent content updates.
+- **SMTP/TLS Integration**: Instead of using an external API service like SendGrid, I manually configured an SMTP transporter to handle password reset emails and notifications, forcing me to understand TLS certificates and App Passwords.
+- **Environment Variables**: Strict separation of configuration and secrets using `.env` files to prevent credentials from being committed to the repository.
+
+## Challenges & Implementation Details
+Managing dependency versions and preventing security vulnerabilities was a constant challenge. I had to carefully manage Node packages and ensure that user input was sanitized before hitting the database to prevent SQL injection and XSS attacks.
+
+## What I Learned
+- The complexities of implementing a secure, stateful session management system from scratch.
+- How to configure and debug SMTP connections over TLS.
+- Practical experience with schema design and migrations in PostgreSQL.
+
+## Technologies
+Node.js, PostgreSQL, SMTP, TLS, bcrypt, Express
+
+## Links
+- [Live Website →](https://www.tuxpages.tech/)
+- [GitHub Profile & Projects →](https://github.com/ronakgupta03)

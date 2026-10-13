@@ -1,0 +1,110 @@
+---
+title: "Building SchemaForge: Safe, Zero-Downtime Database Migrations for AI Agents"
+subtitle: "Replacing serial integer primary keys with UUIDv7 across PostgreSQL tables without downtime or API breakage"
+publishedAt: "2026-08-30"
+summary: "A deep dive into building SchemaForge for the Agent Harness Hackathon. We solved zero-downtime UUIDv7 migrations across 9 PostgreSQL tables using AST analysis, Daytona sandboxes, and human approval gates."
+tag: "Databases · AI Agents · PostgreSQL · TrueForge"
+image: "/images/projects/schemaforge.svg"
+link: "https://medium.com/@ronakgupta3305/building-schemaforge-safe-zero-downtime-database-migrations-for-ai-agents-32671eb0615a?sharedUserId=ronakgupta3305"
+linkText: "Read Original on Medium"
+---
+
+It started with a request that sounded deceptively simple:
+
+> *"Replace every serial integer primary key across the database with UUIDv7 — with zero downtime, zero API breakage, and without dropping a single row."*
+
+At first glance, it looked like the kind of chore you could finish in an afternoon: change an ID type, update a few foreign keys, run a migration script, and ship it.
+
+```
+Integer IDs ───► UUIDv7 IDs
+```
+
+Then we opened the codebase of **TuxPages**, a full-stack research journal platform running a TypeScript/Drizzle backend over PostgreSQL.
+
+When we inspected the actual database dependency graph, the illusion of simplicity evaporated. The schema spanned **9 tables bound together by 12 foreign-key relationships**. One relationship was even self-referential: `comments.parent_id` pointed straight back to `comments.id`. Some tables lacked explicit constraints in SQL while depending on implicit ORM associations, and `blogs.author_email` duplicated user data without a direct foreign key.
+
+Changing an ID was never about changing a single column. It meant rewiring an entire live dependency graph while production traffic was actively reading and writing to it.
+
+---
+
+## Why UUIDv7 in the First Place?
+
+Serial auto-incrementing integer IDs (`1001`, `1002`, `1003`) suffer from three structural flaws in distributed production environments:
+1. **Enumeration Vulnerabilities**: Attackers can iterate sequentially over IDs to scrape private records.
+2. **Distributed Collisions**: Generating primary keys across multiple nodes or offline workers without a centralized database counter causes key collisions.
+3. **B-Tree Fragmentation with UUIDv4**: While random UUIDv4 prevents enumeration, its uniform randomness causes massive random page splits in B+ Tree indexes, destroying cache locality and causing severe performance degradation.
+
+**UUIDv7** solves this by embedding a millisecond-precision Unix timestamp in the most significant 48 bits, followed by cryptographically random bits. It combines global uniqueness with natural time-ordered monotonicity, preserving $O(\log N)$ B+ Tree sequential insertion performance.
+
+---
+
+## The Core Challenge: Coordinated AST & Schema Evolution
+
+Traditional database migration tooling treats migrations purely as raw SQL DDL:
+```sql
+ALTER TABLE users ALTER COLUMN id TYPE uuid; -- BLOCKS WRITES, BREAKS ORM
+```
+
+In production, running blocking DDL locks tables, stalling concurrent queries. Worse, client applications running deployed ORM models expecting integer types immediately crash with runtime serialization errors.
+
+A schema change is not merely a database change; it is a **coordinated systemic change spanning the database, ORM models, and application endpoints**.
+
+---
+
+## How SchemaForge Solves It
+
+We built **SchemaForge** on the TrueForge agent harness to automate this entire lifecycle:
+
+```
+User Prompt (e.g. "Migrate users and related tables to UUIDv7")
+   │
+   ▼
+TrueForge Root Orchestrator
+   ├── DB Analysis Agent (PostgreSQL MCP: catalogs, constraints, EXPLAIN)
+   └── Code Analysis Agent (Static Python AST + sqlparse across repo)
+   │
+   ▼
+Deterministic Impact Graph Engine (Mermaid diagrams + JSON facts)
+   │
+   ▼
+Daytona Sandbox Engine (Alembic migrations, data parity, query plans)
+   │
+   ▼
+Human Approval Gate (Atomic 1-transaction rollback guard)
+   │
+   ▼
+Zero-Downtime Rollout (Dual-write views & staged cutovers)
+```
+
+### 1. Parallel Discovery & The Impact Graph
+SchemaForge spawns two specialized subagents simultaneously:
+- **Database Subagent**: Inspects live PostgreSQL catalogs via Model Context Protocol (MCP), extracting column types, foreign key constraints, indexes, and row counts.
+- **Code Subagent**: Analyzes application code using static AST parsing, discovering ORM schema files, raw SQL queries, and API route handlers.
+
+The deterministic engine merges these facts into an **AST Impact Graph** showing exactly how database tables map to application classes, fields, and API endpoints.
+
+### 2. Isolated Daytona Sandbox Verification
+Before any production database is touched, SchemaForge spins up an isolated sandbox using Daytona. Inside the sandbox, the agent:
+- Applies generated Alembic migrations.
+- Seeds test data and executes dual-write backfill verification.
+- Benchmarks query performance before and after using `EXPLAIN ANALYZE`.
+
+### 3. The Human Approval Gate
+SchemaForge enforces an immutable safety boundary: **THE GATE**. It pauses autonomous execution, presenting a complete verification report to human operators. It displays exact DDL operations, rollback plans, and backward-compatible views for manual sign-off.
+
+### 4. Zero-Downtime Dual-Write Cutover
+Rather than dropping or altering columns in place:
+1. New UUIDv7 columns are added alongside existing integer columns.
+2. A database trigger keeps both columns synchronized during writes.
+3. Historical data is backfilled asynchronously in batched transactions.
+4. Application ORMs cut over to the new UUIDv7 columns.
+5. Legacy integer columns are safely deprecated and removed.
+
+---
+
+## Conclusion & Links
+
+SchemaForge proves that autonomous AI agents can safely handle high-stakes database refactoring when constrained by deterministic impact analysis, sandbox verification, and human approval gates.
+
+- **Medium Article**: [Read on Medium](https://medium.com/@ronakgupta3305/building-schemaforge-safe-zero-downtime-database-migrations-for-ai-agents-32671eb0615a?sharedUserId=ronakgupta3305)
+- **GitHub Repository**: [github.com/ronakgupta03/schemaforge](https://github.com/ronakgupta03/schemaforge)

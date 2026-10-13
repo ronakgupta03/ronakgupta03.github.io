@@ -1,0 +1,61 @@
+@use "@/components/breakpoints.scss" as breakpoints;
+
+@keyframes pageEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.97);
+        filter: blur(4px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+}
+
+.pageEntrance {
+    animation: pageEntrance 750ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pageEntrance {
+        animation: none;
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+.heroPhoto {
+    transform: translateX(36px);
+}
+
+@media (max-width: breakpoints.$s) {
+    .heroPhoto {
+        transform: none;
+    }
+}
+
+.arenaGridTop {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+  width: 100%;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.arenaGridBottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  align-items: stretch;
+  width: 100%;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+}
