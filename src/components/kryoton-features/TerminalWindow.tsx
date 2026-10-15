@@ -164,8 +164,8 @@ export const TerminalWindow: React.FC = () => {
           "bot",
           <div>
             <strong>Codeforces Profile:</strong> <a href="https://codeforces.com/profile/the.ronak.gupta" target="_blank" rel="noopener noreferrer" style={{ color: "#60a5fa", textDecoration: "underline" }}>@the.ronak.gupta</a><br />
-            <strong>Current Rating:</strong> 1193 | <strong>Peak Rating:</strong> 1193<br />
-            <strong>Problems Solved:</strong> 248+ algorithmic problems (Rank: Newbie, 7 pts to Pupil)<br />
+            <strong>Current Rating:</strong> 1240 | <strong>Peak Rating:</strong> 1246 (Rank: Pupil)<br />
+            <strong>Problems Solved:</strong> 281+ algorithmic problems across Codeforces, CodeChef, and AtCoder<br />
             <strong>Certifications:</strong> NPTEL Getting Started with CP (IIT Gandhinagar), IOQM 2023 Qualifier.
           </div>
         );

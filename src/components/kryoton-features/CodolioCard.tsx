@@ -1,10 +1,52 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./CodolioCard.module.scss";
 
 export const CodolioCard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"ps" | "dev">("ps");
+  const [ghStats, setGhStats] = useState({
+    contributions: 182,
+    activeDays: 32,
+    publicRepos: 26,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    // Live GitHub contribution heatmap stats
+    fetch("https://github-contributions-api.jogruber.de/v4/ronakgupta03?y=last")
+      .then((res) => res.json())
+      .then((data: { contributions?: Array<{ count: number }> }) => {
+        if (data && Array.isArray(data.contributions) && isMounted) {
+          const total = data.contributions.reduce(
+            (acc, curr) => acc + curr.count,
+            0
+          );
+          const active = data.contributions.filter((c) => c.count > 0).length;
+          setGhStats((prev) => ({
+            ...prev,
+            contributions: total,
+            activeDays: active,
+          }));
+        }
+      })
+      .catch(() => {});
+
+    // Live public repositories count
+    fetch("https://api.github.com/users/ronakgupta03")
+      .then((res) => res.json())
+      .then((data: { public_repos?: number }) => {
+        const count = data?.public_repos;
+        if (typeof count === "number" && isMounted) {
+          setGhStats((prev) => ({ ...prev, publicRepos: count }));
+        }
+      })
+      .catch(() => {});
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <div className={styles.cardContainer}>
@@ -195,18 +237,19 @@ export const CodolioCard: React.FC = () => {
             <span className={styles.handleBadge}>@ronakgupta03</span>
 
             {/* 3 Stat Boxes */}
+            {/* 3 Stat Boxes with Live Dynamic GitHub Data */}
             <div className={styles.statsGridThree}>
               <div className={`${styles.statBox} ${styles.statGreen}`}>
                 <span className={styles.statLabel}>Contributions</span>
-                <span className={styles.statNumber}>68+</span>
+                <span className={styles.statNumber}>{ghStats.contributions}</span>
               </div>
               <div className={`${styles.statBox} ${styles.statYellow}`}>
                 <span className={styles.statLabel}>Active Days</span>
-                <span className={styles.statNumber}>89</span>
+                <span className={styles.statNumber}>{ghStats.activeDays}</span>
               </div>
               <div className={`${styles.statBox} ${styles.statGreen}`}>
                 <span className={styles.statLabel}>Public Repos</span>
-                <span className={styles.statNumber}>23</span>
+                <span className={styles.statNumber}>{ghStats.publicRepos}</span>
               </div>
             </div>
 
